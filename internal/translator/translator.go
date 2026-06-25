@@ -32,7 +32,7 @@ func New(apiKey string) *Translator {
 		7. Fix any raw scraping errors, triple dots (...), or typos from the source text seamlessly.
 		8. Output ONLY the clean translated Persian news text. Do not add intro or outro comments.`
 	return &Translator{
-		url:               "https://api.openmodel.ai/v1/messages",
+		url:               "https://wispy-cell-b30e.hazem-omnixify.workers.dev/v1/messages",
 		apiKey:            apiKey,
 		model:             "deepseek-v4-flash",
 		systemInstruction: systemInstruction,
@@ -40,6 +40,7 @@ func New(apiKey string) *Translator {
 }
 
 func (t *Translator) Translate(ctx context.Context, text string) (string, error) {
+
 	payload := OpenModelRequest{
 		Model: t.model,
 		Message: []Message{
@@ -82,7 +83,9 @@ func (t *Translator) Translate(ctx context.Context, text string) (string, error)
 	}
 
 	if resp.StatusCode != http.StatusOK {
-
+		fmt.Println(resp.StatusCode)
+		read, _ := io.ReadAll(resp.Body)
+		fmt.Println(read)
 		return "", err
 	}
 

@@ -2,6 +2,7 @@ package telegram
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -59,14 +60,15 @@ func (e *Engine) Start(ctx context.Context) {
 	}
 	e.bot = botClient
 
-	go e.startPeriodicScraper(ctx)
+	// go e.startPeriodicScraper(ctx)
+	e.executeScraperAndTranslate(ctx)
 	// e.translator.Translate(ctx, "hello")
 	fmt.Println("Telegram bot is running...")
 	botClient.Start(ctx)
 }
 
 func (e *Engine) startPeriodicScraper(ctx context.Context) {
-	sleepTime := rand.Intn(200) + 30
+	sleepTime := rand.Intn(10) + 1
 	ticker := time.NewTicker(time.Duration(sleepTime) * time.Second)
 	defer ticker.Stop()
 
@@ -90,6 +92,10 @@ func (e *Engine) executeScraperAndTranslate(ctx context.Context) {
 		log.Printf("error to scrape page: %v\n", err)
 		return
 	}
+	fmt.Printf("post : %s \n\n", posts)
+	postJson, err := json.MarshalIndent(posts, "", " ")
+
+	fmt.Printf("\n%s\n\n", postJson)
 
 	latestID, err := e.cache.GetLatestID(ctx)
 	if err != nil {

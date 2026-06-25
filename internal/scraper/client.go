@@ -2,7 +2,6 @@ package scraper
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"regexp"
 	"time"
@@ -77,7 +76,6 @@ func (sc *Scraper) ScrapeChannel(ctx context.Context, url string) ([]MessageGrou
 
 		//text
 		messageElement := s.Find(".tgme_widget_message_text.js-message_text")
-		fmt.Println(messageElement.Text())
 
 		posts = append(posts, MessageGroup{
 			ID:        messageID,
