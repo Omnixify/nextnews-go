@@ -45,12 +45,11 @@ func (e *Engine) Start(ctx context.Context) {
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
 	httpClient := &http.Client{
-		Timeout: 30 * time.Second,
+		Timeout: 45 * time.Second,
 	}
 	opts := []bot.Option{
 		bot.WithDefaultHandler(e.handler),
 		bot.WithHTTPClient(30*time.Second, httpClient),
-		bot.WithServerURL("https://api.telegram-proxy.org"),
 	}
 
 	botClient, err := bot.New(e.token, opts...)
