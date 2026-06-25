@@ -60,7 +60,7 @@ func (e *Engine) Start(ctx context.Context) {
 	}
 	e.bot = botClient
 
-	e.executeScraperAndTranslate(ctx)
+	go e.startPeriodicScraper(ctx)
 	// e.translator.Translate(ctx, "hello")
 	fmt.Println("Telegram bot is running...")
 	botClient.Start(ctx)
