@@ -50,7 +50,7 @@ func (e *Engine) Start(ctx context.Context) {
 	opts := []bot.Option{
 		bot.WithDefaultHandler(e.handler),
 		bot.WithHTTPClient(30*time.Second, httpClient),
-		bot.WithServerURL("https://wispy-cell-b30e.hazem-omnixify.workers.dev/"),
+		bot.WithServerURL("https://wispy-cell-b30e.hazem-omnixify.workers.dev"),
 	}
 
 	botClient, err := bot.New(e.token, opts...)
