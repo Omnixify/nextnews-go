@@ -85,7 +85,7 @@ func (e *Engine) executeScraperAndTranslate(ctx context.Context) {
 	scrapeCtx, scrapeCancel := context.WithTimeout(ctx, 10*time.Second)
 	defer scrapeCancel()
 
-	posts, err := e.scraper.ScrapeChannel(scrapeCtx, "https://t.me/s/wfwitness")
+	posts, err := e.scraper.ScrapeChannel(scrapeCtx, "https://wispy-cell-b30e.hazem-omnixify.workers.dev/s/wfwitness")
 	if err != nil {
 		log.Printf("error to scrape page: %v\n", err)
 		return
