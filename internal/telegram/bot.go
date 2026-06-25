@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"math/rand"
+	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -45,8 +46,24 @@ func NewEngine(
 func (e *Engine) Start(ctx context.Context) {
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
+
+	transport := &http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+		DialContext: (&net.Dialer{
+			Timeout:   15 * time.Second,
+			KeepAlive: 15 * time.Second,
+		}).DialContext,
+		ForceAttemptHTTP2:     true,
+		MaxIdleConns:          100,
+		IdleConnTimeout:       10 * time.Second,
+		TLSHandshakeTimeout:   10 * time.Second,
+		ExpectContinueTimeout: 1 * time.Second,
+		DisableKeepAlives:     true,
+	}
+
 	httpClient := &http.Client{
-		Timeout: 45 * time.Second,
+		Timeout:   45 * time.Second,
+		Transport: transport,
 	}
 	opts := []bot.Option{
 		bot.WithDefaultHandler(e.handler),
