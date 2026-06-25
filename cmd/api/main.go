@@ -24,8 +24,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to initialize cache package: %v", err)
 	}
-	engine := telegram.NewEngine(scraper, translator, cfg.TelegramBotToken, cache)
-	engine.Start(context.Background())
 
 	go func() {
 		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -35,4 +33,8 @@ func main() {
 			log.Fatal(err)
 		}
 	}()
+
+	engine := telegram.NewEngine(scraper, translator, cfg.TelegramBotToken, cache)
+	engine.Start(context.Background())
+
 }
