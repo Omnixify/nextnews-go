@@ -62,8 +62,7 @@ func (e *Engine) Start(ctx context.Context) {
 }
 
 func (e *Engine) startPeriodicScraper(ctx context.Context) {
-	// Increased delay window to 30-90 seconds to prevent aggressive rate limiting
-	sleepTime := rand.Intn(2) + 3
+	sleepTime := rand.Intn(120) + 30
 	ticker := time.NewTicker(time.Duration(sleepTime) * time.Second)
 	defer ticker.Stop()
 
