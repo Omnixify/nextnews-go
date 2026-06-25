@@ -83,7 +83,7 @@ func (e *Engine) Start(ctx context.Context) {
 }
 
 func (e *Engine) startPeriodicScraper(ctx context.Context) {
-	sleepTime := rand.Intn(50) + 320
+	sleepTime := rand.Intn(10) + 50
 	ticker := time.NewTicker(time.Duration(sleepTime) * time.Second)
 	defer ticker.Stop()
 
