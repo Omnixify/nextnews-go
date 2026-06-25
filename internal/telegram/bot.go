@@ -60,7 +60,6 @@ func (e *Engine) Start(ctx context.Context) {
 	}
 	e.bot = botClient
 
-	// go e.startPeriodicScraper(ctx)
 	e.executeScraperAndTranslate(ctx)
 	// e.translator.Translate(ctx, "hello")
 	fmt.Println("Telegram bot is running...")
@@ -68,7 +67,7 @@ func (e *Engine) Start(ctx context.Context) {
 }
 
 func (e *Engine) startPeriodicScraper(ctx context.Context) {
-	sleepTime := rand.Intn(10) + 1
+	sleepTime := rand.Intn(50) + 320
 	ticker := time.NewTicker(time.Duration(sleepTime) * time.Second)
 	defer ticker.Stop()
 
@@ -118,7 +117,12 @@ func (e *Engine) executeScraperAndTranslate(ctx context.Context) {
 
 	ChannelID := "@xNextNews"
 
+	sleepTime := rand.Intn(10) + 5
+	ticker := time.NewTicker(time.Duration(sleepTime) * time.Second)
+	defer ticker.Stop()
+
 	for _, post := range newPosts {
+		<-ticker.C
 		translateCtx, translateCancel := context.WithTimeout(ctx, 60*time.Second)
 		translatedText, err := e.translator.Translate(translateCtx, post.Message)
 		translateCancel()
