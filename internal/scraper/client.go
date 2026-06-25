@@ -75,17 +75,11 @@ func (sc *Scraper) ScrapeChannel(ctx context.Context, url string) ([]MessageGrou
 		})
 
 		//text
-		var message string
 		messageElement := s.Find(".tgme_widget_message_text.js-message_text")
-		matches := sc.textRegex.FindAllStringSubmatch(messageElement.Text(), -1)
-		for _, match := range matches {
-			if len(match) > 0 {
-				message = match[0]
-			}
-		}
+
 		posts = append(posts, MessageGroup{
 			ID:        messageID,
-			Message:   message,
+			Message:   messageElement.Text(),
 			ImageUris: imageLinks,
 			VideoUris: videoLinks,
 		})

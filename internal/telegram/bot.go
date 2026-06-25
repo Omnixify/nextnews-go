@@ -55,15 +55,15 @@ func (e *Engine) Start(ctx context.Context) {
 	}
 	e.bot = botClient
 
-	// go e.startPeriodicScraper(ctx)
-	e.translator.Translate(ctx, "hello")
+	go e.startPeriodicScraper(ctx)
+	// e.translator.Translate(ctx, "hello")
 	fmt.Println("Telegram bot is running...")
 	botClient.Start(ctx)
 }
 
 func (e *Engine) startPeriodicScraper(ctx context.Context) {
 	// Increased delay window to 30-90 seconds to prevent aggressive rate limiting
-	sleepTime := rand.Intn(100) + 40
+	sleepTime := rand.Intn(2) + 3
 	ticker := time.NewTicker(time.Duration(sleepTime) * time.Second)
 	defer ticker.Stop()
 
