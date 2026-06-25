@@ -14,19 +14,7 @@ import (
 
 func main() {
 	cfg := config.Load()
-	// --- ADD THIS LOGGING BLOCK ---
-	log.Println("=========================================")
-	log.Println("Checking Environment Variables...")
-	log.Printf("TELEGRAM_BOT_TOKEN status: Length = %d", len(cfg.TelegramBotToken))
-	if len(cfg.TelegramBotToken) > 10 {
-		log.Printf("TELEGRAM_BOT_TOKEN partial mask: %s...%s", cfg.TelegramBotToken[:5], cfg.TelegramBotToken[len(cfg.TelegramBotToken)-5:])
-	} else {
-		log.Println("WARNING: TELEGRAM_BOT_TOKEN is empty or too short!")
-	}
 
-	log.Printf("OPENMODEL_API status: Length = %d", len(cfg.OpenModelApi))
-	log.Printf("REDIS_URL status: Length = %d", len(cfg.RedisUrl))
-	log.Println("=========================================")
 	if cfg.OpenModelApi == "" || cfg.RedisUrl == "" || cfg.TelegramBotToken == "" {
 		log.Fatal("Missing required environment variables: TELEGRAM_BOT_TOKEN or GEMINI_API_KEY or TELEGRAM_BOT_API")
 	}
