@@ -44,9 +44,12 @@ func NewEngine(
 func (e *Engine) Start(ctx context.Context) {
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
-
+	httpClient := &http.Client{
+		Timeout: 30 * time.Second,
+	}
 	opts := []bot.Option{
 		bot.WithDefaultHandler(e.handler),
+		bot.WithHTTPClient(30*time.Second, httpClient),
 	}
 
 	botClient, err := bot.New(e.token, opts...)
