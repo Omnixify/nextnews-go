@@ -20,4 +20,4 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           OPENMODEL_API: ${{ secrets.OPENMODEL_API }}
           REDIS_URL: ${{ secrets.REDIS_URL }}
-        run: go run main.go
+        run: go run cmd/api/main.go
