@@ -14,13 +14,16 @@ import (
 func main() {
 	cfg := config.Load()
 
-	if cfg.OpenModelApi == "" || cfg.RedisUrl == "" || cfg.TelegramBotToken == "" {
+	if cfg.GeminiApi == "" || cfg.RedisUrl == "" || cfg.TelegramBotToken == "" {
 		log.Fatal("Missing required environment variables")
 	}
 
 	// Initialize dependencies
 	scrp := scraper.New()
-	trans := translator.New(cfg.OpenModelApi)
+	trans, err := translator.New(cfg.GeminiApi)
+	if err != nil {
+		log.Fatalf("Gemini api error : %v", err)
+	}
 	cch, err := cache.New(cfg.RedisUrl)
 	if err != nil {
 		log.Fatalf("Cache error: %v", err)
