@@ -18,7 +18,7 @@ jobs:
       - name: Run Scraper
         env:
           TELEGRAM_BOT_TOKEN: ${{ vars.TELEGRAM_BOT_TOKEN }}
-          OPENMODEL_API: ${{ vars.OPENMODEL_API }}
+          OPENMODEL_API: ${{ vars.GEMINI_API }}
           REDIS_URL: ${{ vars.REDIS_URL }}
         run: |
           go mod tidy
