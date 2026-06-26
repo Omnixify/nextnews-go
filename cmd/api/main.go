@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"net/http"
 
 	"github.com/PooryaAlirezazadeh/TeleBot/internal/cache"
 	"github.com/PooryaAlirezazadeh/TeleBot/internal/config"
@@ -16,26 +15,18 @@ func main() {
 	cfg := config.Load()
 
 	if cfg.OpenModelApi == "" || cfg.RedisUrl == "" || cfg.TelegramBotToken == "" {
-		log.Fatal("Missing required environment variables: TELEGRAM_BOT_TOKEN or GEMINI_API_KEY or TELEGRAM_BOT_API")
+		log.Fatal("Missing required environment variables")
 	}
-	scraper := scraper.New()
-	translator := translator.New(cfg.OpenModelApi)
 
-	cache, err := cache.New(cfg.RedisUrl)
+	// Initialize dependencies
+	scrp := scraper.New()
+	trans := translator.New(cfg.OpenModelApi)
+	cch, err := cache.New(cfg.RedisUrl)
 	if err != nil {
-		log.Fatalf("Failed to initialize cache package: %v", err)
+		log.Fatalf("Cache error: %v", err)
 	}
 
-	go func() {
-		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Bot is running!"))
-		})
-		if err := http.ListenAndServe(":7860", nil); err != nil {
-			log.Fatal(err)
-		}
-	}()
-
-	engine := telegram.NewEngine(scraper, translator, cfg.TelegramBotToken, cache)
-	engine.Start(context.Background())
-
+	// Run the scraper once and exit
+	engine := telegram.NewEngine(scrp, trans, cfg.TelegramBotToken, cch)
+	engine.RunOnce(context.Background())
 }

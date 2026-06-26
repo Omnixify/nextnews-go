@@ -59,7 +59,7 @@ No explanations.
 No markdown.
 No introductory or concluding comments.`
 	return &Translator{
-		url:               "https://wispy-cell-b30e.hazem-omnixify.workers.dev/v1/messages",
+		url:               "https://api.openmodel.app/v1/messages",
 		apiKey:            apiKey,
 		model:             "deepseek-v4-flash",
 		systemInstruction: systemInstruction,
