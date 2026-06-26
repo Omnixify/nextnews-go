@@ -1,14 +1,16 @@
 name: News Scraper
+
 on:
   schedule:
     - cron: "*/10 * * * *" # Runs every 10 minutes
-  workflow_dispatch: # Allows you to click a button to run it manually
+  workflow_dispatch: # Allows manual trigger
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
