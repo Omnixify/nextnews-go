@@ -13,7 +13,7 @@ ENV HOME=/home/user
 WORKDIR $HOME/app
 
 COPY --from=builder --chown=user:user ./telebot .
-EXPOSE 7860
+EXPOSE 8080
 
 CMD [ "./telebot" ]
 

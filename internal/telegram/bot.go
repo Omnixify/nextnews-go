@@ -7,7 +7,6 @@ import (
 	"io"
 	"log"
 	"math/rand"
-	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -47,27 +46,12 @@ func (e *Engine) Start(ctx context.Context) {
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
 
-	transport := &http.Transport{
-		Proxy: http.ProxyFromEnvironment,
-		DialContext: (&net.Dialer{
-			Timeout:   15 * time.Second,
-			KeepAlive: 30 * time.Second,
-		}).DialContext,
-		ForceAttemptHTTP2:     false,
-		MaxIdleConns:          100,
-		IdleConnTimeout:       30 * time.Second,
-		TLSHandshakeTimeout:   15 * time.Second,
-		ExpectContinueTimeout: 1 * time.Second,
-	}
-
 	httpClient := &http.Client{
-		Timeout:   45 * time.Second,
-		Transport: transport,
+		Timeout: 45 * time.Second,
 	}
 	opts := []bot.Option{
 		bot.WithDefaultHandler(e.handler),
 		bot.WithHTTPClient(30*time.Second, httpClient),
-		bot.WithServerURL("https://wispy-cell-b30e.hazem-omnixify.workers.dev"),
 	}
 
 	botClient, err := bot.New(e.token, opts...)
