@@ -1,9 +1,9 @@
 name: News Scraper
 
 on:
-  schedule:
-    - cron: "*/10 * * * *" # Runs every 10 minutes
-  workflow_dispatch: # Allows manual trigger
+  repository_dispatch:
+    types: [run-scraper]
+  workflow_dispatch:
 
 jobs:
   build:
